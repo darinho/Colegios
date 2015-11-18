@@ -1,0 +1,41 @@
+{
+    "idUser": 1,
+    "txtPwd": "lkjasdookjakldsj",
+    "txtUser": "karen.aguirre",
+    "person": {
+        "idPerson": 2,
+        "txtName": "Karen Aguirre"
+    },
+    "userProfiles": [
+        {
+            "idUserProfile": 1,
+            "profile": {
+                "idProfile": 1,
+                "txtDescription": "Root"
+            },
+            "school": {
+                "idSchool": 1,
+                "txtNombre": "De La Salle",
+                "address": {
+                    "idAdress": 1,
+                    "txtNumberHouse": "10-103",
+                    "txtColony": "",
+                    "intZone": 1,
+                    "txtIndications": "",
+                    "city": {
+                        "idCity": 1,
+                        "txtName": "Huehuetenango",
+                        "state": {
+                            "idState": 1,
+                            "txtName": "Huehuetenango",
+                            "country": {
+                                "idCountry": 1,
+                                "txtName": "Guatemala"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

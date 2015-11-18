@@ -1,0 +1,183 @@
+
+<form name="userForm" novalidate ng-submit="saveUser(!userForm.$invalid);">
+    <input type="button" class="btn btn-default" data-target="#Carousel" data-slide="prev" value="{{next[btn - 1]| translate}}"  ng-click="btn = btn - 1" ng-hide="btn < 1"/>
+    <input type="button" class="btn btn-default" data-target="#Carousel" data-slide="next" value="{{next[btn + 1]| translate}}" ng-click="btn = btn + 1"  ng-hide="btn > 1"/>
+    {{btn}}
+    <div id="Carousel" class="carousel slide" data-interval='false' style="margin: 20px">
+        <div class="carousel-inner">
+            <div class="item active">
+                <div class="input-group" ng-class="{
+                        'has-error'
+                                : userForm.user.$invalid }">
+                    <span class="input-group-addon">{{'user.user'| translate}}</span>
+                    <input name="user" type="email" class="form-control" ng-model="user.txtUser" required>
+                </div>
+                <br>
+                <div ng-repeat="docto in user.userProfiles">
+                    <div class="input-group"  ng-class="{
+                            'has-error'
+                                    : userForm.profile.$invalid }">
+                        <span class="input-group-addon">{{'user.profile'| translate}}</span>
+                        <select id="country" name="profile" class="form-control" ng-model="docto.profile.idProfile"
+                                ng-required='true' ng-options='p.idProfile as p.txtDescription for p in profiles'>
+                            <option value=''>{{'user.selectprofile'| translate}}</option>
+                        </select>
+                        <span class="input-group-addon"  ng-show="loadProfile"><img src="resources/img/loading.gif"></span>
+                    </div>
+                </div>
+                <br>
+                <div class="input-group">
+                    <span class="input-group-addon">{{'user.user'| translate}}</span>
+                    <input name="maxmins" type="number" min="0" class="form-control" ng-model="user.intDaysChangePwd" value="0">
+                </div>
+            </div>
+            <div class="item">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group" ng-class="{
+                                'has-error'
+                                        : userForm.nameF.$invalid }">
+                            <span class="input-group-addon">{{'user.nameF'| translate}}</span>
+                            <input type="text" class="form-control" ng-model="user.person.txtFirstNameF" name="nameF" required
+                                   ng-change="user.person.txtFullName = user.person.txtFirstNameF + ' ' + user.person.txtFirstNameS + ' ' + user.person.txtFirstNameT + ' ' + user.person.txtLastNameF + ' ' + user.person.txtLastNameS + ' ' + user.person.txtLastNameT">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">{{'user.nameS'| translate}}</span>
+                            <input type="text" class="form-control" ng-model="user.person.txtFirstNameS"
+                                   ng-change="user.person.txtFullName = user.person.txtFirstNameF + ' ' + user.person.txtFirstNameS + ' ' + user.person.txtFirstNameT + ' ' + user.person.txtLastNameF + ' ' + user.person.txtLastNameS + ' ' + user.person.txtLastNameT">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">{{'user.nameT'| translate}}</span>
+                            <input type="text" class="form-control" ng-model="user.person.txtFirstNameT"
+                                   ng-change="user.person.txtFullName = user.person.txtFirstNameF + ' ' + user.person.txtFirstNameS + ' ' + user.person.txtFirstNameT + ' ' + user.person.txtLastNameF + ' ' + user.person.txtLastNameS + ' ' + user.person.txtLastNameT">
+                        </div>
+                    </div>
+                </div>
+                <br> 
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group" ng-class="{'has-error': userForm.lastName.$invalid }">
+                            <span class="input-group-addon">{{'user.lnameF'| translate}}</span>
+                            <input type="text" class="form-control" ng-model="user.person.txtLastNameF" name="lastName" required
+                                   ng-change="user.person.txtFullName = user.person.txtFirstNameF + ' ' + user.person.txtFirstNameS + ' ' + user.person.txtFirstNameT + ' ' + user.person.txtLastNameF + ' ' + user.person.txtLastNameS + ' ' + user.person.txtLastNameT">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">{{'user.lnameS'| translate}}</span>
+                            <input type="text" class="form-control" ng-model="user.person.txtLastNameS"
+                                   ng-change="user.person.txtFullName = user.person.txtFirstNameF + ' ' + user.person.txtFirstNameS + ' ' + user.person.txtFirstNameT + ' ' + user.person.txtLastNameF + ' ' + user.person.txtLastNameS + ' ' + user.person.txtLastNameT">
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">{{'user.lnameT'| translate}}</span>
+                            <input type="text" class="form-control" ng-model="user.person.txtLastNameT"
+                                   ng-change="user.person.txtFullName = user.person.txtFirstNameF + ' ' + user.person.txtFirstNameS + ' ' + user.person.txtFirstNameT + ' ' + user.person.txtLastNameF + ' ' + user.person.txtLastNameS + ' ' + user.person.txtLastNameT">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <input class="btn btn-primary" type="button" value="{{'general.add'| translate}}" ng-click="user.person.documents.push({})"/>
+                <br><br>
+                <div ng-repeat="docto in user.person.documents">
+                    <div class="col-lg-6">
+                        <div class="input-group"  ng-class="{'has-error': userForm.documenttype.$invalid }">
+                            <span class="input-group-addon">{{'user.profile'| translate}}</span>
+                            <select id="documenttype" name="documenttype" class="form-control" ng-model="docto.documentType.idDocumentType"
+                                    ng-required='true' ng-options='dt.idDocumentType as dt.txtName for dt in documentsTypes'>
+                                <option value=''>{{'user.selectdocumenttype'| translate}}</option>
+                            </select>
+                            <span class="input-group-addon"  ng-show="loadDocumentsTypes"><img src="resources/img/loading.gif"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="input-group" ng-class="{'has-error': userForm.document.$invalid }">
+                            <span class="input-group-addon">{{'user.document'| translate}}</span>
+                            <input type="text" name="document" class="form-control" ng-model="docto.txtDocument" required/>
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            <div class="item">
+                <div class="input-group">
+                    <span class="input-group-addon">{{'user.address.indications'| translate}}</span>
+                    <input type="text" class="form-control" ng-model="user.person.address.txtIndications">
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="input-group" ng-class="{
+                                'has-error'
+                                        : userForm.numberHouse.$invalid }">
+                            <span class="input-group-addon">{{'user.address.numberhouse'| translate}}</span>
+                            <input type="text" class="form-control" ng-model="user.person.address.txtNumberHouse" name="numberHouse" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group" ng-class="{
+                                'has-error'
+                                        : userForm.zone.$invalid }">
+                            <span class="input-group-addon">{{'user.address.zone'| translate}}</span>
+                            <input type="number" class="form-control" ng-model="user.person.address.intZone" name="zone" required>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group">
+                            <span class="input-group-addon">{{'user.address.colony'| translate}}</span>
+                            <input type="text" class="form-control" ng-model="user.person.address.txtColony">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class='row'>
+                    <div class="col-lg-4">
+                        <div class="input-group" ng-class="{
+                                'has-error'
+                                        : userForm.country.$invalid }">
+                            <span class="input-group-addon">{{'general.country'| translate}}</span>
+                            <select id="country"  class="form-control" ng-model="country" ng-change='state = undefined' name="country" required
+                                    ng-required='true' ng-options='c as c.txtName for c in countries'>
+                                <option value=''>{{'general.selectcountry'| translate}}</option>
+                            </select>
+                            <span class="input-group-addon"  ng-show="loadCountry"><img src="resources/img/loading.gif"></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group" ng-class="{
+                                'has-error'
+                                        : userForm.state.$invalid }">
+                            <span class="input-group-addon">{{'general.state'| translate}}</span>
+                            <select id="country" class="form-control" ng-model="state" name="state" required
+                                    ng-required='true' ng-options='s as s.txtName for s in country.states' ng-disabled="!country">
+                                <option value=''>{{'general.selectstate'| translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="input-group" ng-class="{
+                                'has-error'
+                                        : userForm.city.$invalid }">
+                            <span class="input-group-addon">{{'general.city'| translate}}</span>
+                            <select id="country" class="form-control" ng-model="user.person.address.city.idCity" name="city" required
+                                    ng-required='true' ng-options='x.idCity as x.txtName for x in state.cities' ng-disabled="!country || !state">
+                                <option value=''>{{'general.selectcity'| translate}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <input type="submit" class="btn btn-primary" data-slide-to="0"  value="{{'general.saveChanges'|translate}}" ng-hide="userForm.$invalid"/>
+</form>
+<br>
+{{user}}

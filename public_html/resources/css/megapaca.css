@@ -1,0 +1,441 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 26/03/2015, 02:37:51 PM
+    Author     : Dario Calderon
+*/
+body {
+    background-color: #fff;
+    color: #666;
+    font-family: "Open sans", Sans-serif;
+    padding: 0;
+    margin: 0
+}
+
+a {
+    text-decoration: none
+}
+
+
+
+h1 {
+    margin-top: 0
+}
+
+
+
+#contentWrapper {
+    width: 100%;
+    height: 100%;
+    position: relative
+}
+
+#contentLeft {
+    z-index: 10;
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #283c51
+}
+
+
+
+#contentRight {
+    padding: 1.3rem 2rem;
+    margin-left: 250px
+}
+
+
+
+#leftNavigation {
+    margin: 2rem 0
+}
+
+#leftNavigation,
+#leftNavigation li ul {
+    list-style: none;
+    padding: 0
+}
+
+#leftNavigation li a {
+    font-size: 0.875rem;
+    display: block;
+    padding: 0.8rem 1rem 0.8rem 3rem;
+    color: #adadad;
+    border-bottom: solid 1px #395673;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    position: relative;
+    -webkit-transition: color 0.2s ease;
+    transition: color 0.2s ease
+}
+
+#leftNavigation li a,
+#leftNavigation li a .leftNavIcon {
+    line-height: 120%
+}
+
+#leftNavigation li a .leftNavIcon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3rem;
+    padding: 0.8rem 0;
+    text-align: center
+}
+
+#leftNavigation li a:hover {
+    color: #fff
+}
+
+
+#leftNavigation li ul {
+    display: none;
+    margin: 0;
+    background-color: #17232f
+}
+
+#leftNavigation li ul li a {
+    border-bottom: solid 1px #233547
+}
+
+#leftNavigation li ul li:last-child a {
+    border-bottom: none
+}
+
+#leftNavigation li ul li.active a {
+    color: #fff
+}
+
+#leftNavigation li.active>a {
+    color: #fff
+}
+
+#leftNavigation li.active ul {
+    display: block
+}
+
+
+#leftNavigation>li.active {
+    background-color: #427c97
+}
+
+.filtros-menu {
+    display: none;
+}
+
+.open .filtros-menu {
+    display: block;
+    //position: absolute;
+    background-color:white;
+}
+
+.div-centered {
+    overflow: auto; 
+    margin:0 auto;
+}
+
+.font-error-html
+{
+    text-shadow:1px 1px 0 rgba(59,142,163,1);
+    font-weight:bold;
+    font-style:italic;
+    color:#060957;
+    letter-spacing:-10pt;
+    word-spacing:-20pt;
+    font-size:150px;
+    text-align:center;
+    font-family:arial black, sans-serif;
+    line-height:0;
+}
+
+.div-container-h{
+    position: absolute;
+    top: 50%;
+    margin-top: -200px;/* half of #content height*/
+    left: 0;
+    width: 100%;
+}
+
+.div-content-h {
+    width: 624px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 395px;
+}
+
+.font-error-html-text
+{
+    font-style:italic;
+    font-weight:bold;
+    font-size:18px;
+    text-align:justify;
+    font-family:arial black, sans-serif;
+}
+
+.font-style-title:hover{
+    color: white;
+    font: normal 20px/1 "Aladin", Helvetica, sans-serif;
+}
+
+.font-style-title{
+    background-color: #e08e0b;
+    box-sizing: content-box;
+    float: none;
+    z-index: auto;
+    width: auto;
+    height: auto;
+    cursor: default;
+    opacity: 1;
+    margin: 0;
+    overflow: visible;
+    border: none;
+    font: normal 17px/1 "Aladin", Helvetica, sans-serif;
+    color: rgba(48,48,48,1);
+    text-align: center;
+    text-overflow: clip;
+    background: none;
+    box-shadow: none;
+    transition: none;
+    transform: none;
+    transform-origin: 50% 50% 0;
+}
+
+/* latin-ext */
+@font-face {
+    font-family: 'Aladin';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Aladin Regular'), local('Aladin-Regular'), url(../fonts/alladin.woff2) format('woff2');
+    //unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+    font-family: 'Aladin';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Aladin Regular'), local('Aladin-Regular'), url(../fonts/alladinw.woff2) format('woff2');
+    //unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+div.tooltips,
+a.tooltips {
+    position: relative;
+    display: inline;
+}
+
+div.tooltips p,
+a.tooltips p {
+    position: absolute;
+    width:150px;
+    color: #FFFFFF;
+    background: #000000;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    visibility: hidden;
+    border-radius: 6px;
+}
+
+div.tooltips p{
+    width:230px;
+    color: #FFFFFF;
+    background: #000000;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 10px !Important;
+    visibility: visible;
+    opacity: 0.8;
+    top: 5px;
+    margin-left: 75px;
+    z-index: 999;
+}
+
+div.tooltips p:after,
+a.tooltips p:after {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -8px;
+    //width: 0; height: 0;
+    border-bottom: 8px solid #000000;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+}
+a:hover.tooltips p {
+    visibility: visible;
+    opacity: 0.8;
+    top: 30px;
+    left: 50%;
+    margin-left: -76px;
+    z-index: 999;
+}
+
+.invalid {
+    background:url(https://ws.megapaca.gt/lf/iconos/roj/16/ico129.png) no-repeat 0 50%;
+    padding-left:22px;
+    line-height:24px;
+    color:#ec3f41;
+}
+.valid {
+    background:url(https://ws.megapaca.gt/lf/iconos/ver/16/ico128.png) no-repeat 0 50%;
+    padding-left:22px;
+    line-height:24px;
+    color:#3a7d34;
+}
+
+.ERROR {
+    font-family:Arial, Helvetica, sans-serif; 
+    font-size:13px;
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    position:relative;                
+
+    color: #D8000C;
+    background-color: #FFBABA;
+    background-image: url('resources/img/ERROR.png');
+    background-repeat: no-repeat;
+}
+
+.MSNE {
+    font-family:Arial, Helvetica, sans-serif; 
+    font-size:13px;
+    border: 1px solid;
+    margin: 10px 0px;
+    padding:15px 10px 15px 50px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+    position:relative;
+    color: #008000;
+    background-color: #CEF6CE;
+    background-repeat: no-repeat;
+}
+
+.customUl {
+    cursor: pointer;
+}
+
+.customUl :hover {
+    color: black;
+}
+
+.customUl > li > a{
+    background: rgb(224, 142, 11);
+    border-radius: 4px;
+}
+
+.k-notification {
+    border: 0;
+}
+
+
+/* Info template */
+.k-notification-info.k-group {
+    background: rgba(0%,0%,0%,.7);
+    color: #fff;
+}
+.new-mail {
+    width: 300px;
+    height: 100px;
+}
+.new-mail h3 {
+    font-size: 1em;
+    padding: 32px 10px 5px;
+}
+.new-mail img {
+    float: left;
+    margin: 30px 15px 30px 30px;
+}
+
+/* Error template */
+.k-notification-error.k-group {
+    background: rgba(100%,0%,0%,.7) !Important;
+    color: #ffffff !Important;
+}
+.wrong-pass {
+    width: 300px;
+    height: 100px;
+}
+.wrong-pass h3 {
+    font-size: 1em;
+    padding: 32px 10px 5px;
+}
+.wrong-pass img {
+    float: left;
+    margin: 30px 15px 30px 30px;
+}
+
+/* Success template */
+.k-notification-success.k-group {
+    background: rgba(0%,60%,0%,.7) !Important;
+    color: #fff !Important; 
+}
+.upload-success {
+    width: 300px;
+    height: 100px;
+}
+.upload-success h3 {
+    font-size: 1em;
+    padding: 32px 10px 5px;
+}
+.upload-success img {
+    float: left;
+    margin: 30px 15px 30px 30px;
+}
+
+.k-grid{
+    margin: 0 20px 0 20px; 
+}
+
+.gridResaltHover table tr:hover td {
+    background :rgb(107, 188, 242) !important;
+    cursor: pointer !important;
+}
+
+html,
+body
+{
+    margin:0;
+    padding:0;
+    height:100%;
+}
+
+html
+{
+    overflow:hidden;
+}
+
+.dvOrdenPanel{
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=71)";
+    filter: alpha(opacity=71);
+    -moz-opacity: 0.71;
+    -khtml-opacity: 0.71;
+    opacity: 0.71;
+    border: 7px #faa900 inset;
+
+    background-color: #ffd25c;
+
+    padding: 0px;
+
+    -webkit-border-top-left-radius: 80px;
+    -moz-border-radius-topleft: 80px;
+    border-top-left-radius: 80px;
+
+    -webkit-border-bottom-right-radius: 80px;
+    -moz-border-radius-bottomright: 80px;
+    border-bottom-right-radius: 80px;
+
+    -moz-box-shadow: -6px 11px 32px 0px #ae7224;
+    -webkit-box-shadow: -6px 11px 32px 0px #ae7224;
+    box-shadow: -6px 11px 32px 0px #ae7224;
+}

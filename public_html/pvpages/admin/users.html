@@ -18,8 +18,8 @@
                             'has-error'
                                     : userForm.profile.$invalid }">
                         <span class="input-group-addon">{{'user.profile'| translate}}</span>
-                        <select id="country" name="profile" class="form-control" ng-model="docto.profile.idProfile"
-                                ng-required='true' ng-options='p.idProfile as p.txtDescription for p in profiles'>
+                        <select id="country" name="profile" class="form-control" ng-model="docto.profile.id"
+                                ng-required='true' ng-options='p.id as p.txtDescription for p in profiles'>
                             <option value=''>{{'user.selectprofile'| translate}}</option>
                         </select>
                         <span class="input-group-addon"  ng-show="loadProfile"><img src="resources/img/loading.gif"></span>
@@ -88,8 +88,8 @@
                     <div class="col-lg-6">
                         <div class="input-group"  ng-class="{'has-error': userForm.documenttype.$invalid }">
                             <span class="input-group-addon">{{'user.profile'| translate}}</span>
-                            <select id="documenttype" name="documenttype" class="form-control" ng-model="docto.documentType.idDocumentType"
-                                    ng-required='true' ng-options='dt.idDocumentType as dt.txtName for dt in documentsTypes'>
+                            <select id="documenttype" name="documenttype" class="form-control" ng-model="docto.documentType.id"
+                                    ng-required='true' ng-options='dt.id as dt.txtName for dt in documentsTypes'>
                                 <option value=''>{{'user.selectdocumenttype'| translate}}</option>
                             </select>
                             <span class="input-group-addon"  ng-show="loadDocumentsTypes"><img src="resources/img/loading.gif"></span>
@@ -166,8 +166,8 @@
                                 'has-error'
                                         : userForm.city.$invalid }">
                             <span class="input-group-addon">{{'general.city'| translate}}</span>
-                            <select id="country" class="form-control" ng-model="user.person.address.city.idCity" name="city" required
-                                    ng-required='true' ng-options='x.idCity as x.txtName for x in state.cities' ng-disabled="!country || !state">
+                            <select id="country" class="form-control" ng-model="user.person.address.city.id" name="city" required
+                                    ng-required='true' ng-options='x.id as x.txtName for x in state.cities' ng-disabled="!country || !state">
                                 <option value=''>{{'general.selectcity'| translate}}</option>
                             </select>
                         </div>

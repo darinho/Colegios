@@ -2,7 +2,7 @@ colegios.controller('ctrlUser', ['$scope', 'CountryService', 'ProfileService', '
         $.AdminLTE.layout.fix();
         $.AdminLTE.layout.fixSidebar();
         $scope.school = {
-            idSchool: 492
+            id: 349
         };
 
         var user = {

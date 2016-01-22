@@ -71,3 +71,20 @@ colegios.controller('ctrlUser', ['$scope', 'CountryService', 'ProfileService', '
 
     }]);
 
+colegios.controller('ProfileController', ['$scope', function ($scope) {
+        $scope.grid = {
+            columns: [
+                {name: 'idProfile', text: 'general.id'},
+                {name: 'txtDescription', text: 'general.description'},
+                {name: 'snActive', text: 'general.activo'}
+            ]
+        };
+
+
+
+        $scope.data = [
+            {id: 5, name: 'Dario', birthday: '21-02-1990', lastname: 'Calderon'},
+            {id: 6, name: 'Karen', birthday: '21-02-1990', lastname: 'Aguirre'},
+            {id: 7, name: 'Wilver', birthday: '21-02-1990', lastname: 'Martinez'}
+        ];
+    }]);

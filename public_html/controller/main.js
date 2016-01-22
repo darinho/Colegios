@@ -5,67 +5,121 @@
  */
 
 
-colegios.controller('MainController', ['$scope', '$translate', 'Token', '$location', '$state', function ($scope, $translate, Token, $location, $state) {
-        $scope.accessToken = Token.get();
-        function parseKeyValue(/**string*/keyValue) {
-            var obj = {}, key_value, key;
-            angular.forEach((keyValue || "").split('&'), function (keyValue) {
-                if (keyValue) {
-                    key_value = keyValue.split('=');
-                    key = decodeURIComponent(key_value[0]);
-                    obj[key] = angular.isDefined(key_value[1]) ? decodeURIComponent(key_value[1]) : true;
-                }
-            });
-            return obj;
-        }
-
-        var queryString = $location.path().substring(1);  // preceding slash omitted
-        var params = parseKeyValue(queryString);
-
-        // TODO: The target origin should be set to an explicit origin.  Otherwise, a malicious site that can receive
-        //       the token if it manages to change the location of the parent. (See:
-        //       https://developer.mozilla.org/en/docs/DOM/window.postMessage#Security_concerns)
-
-        if (window.opener) {
-            window.opener.postMessage(params, "*");
-            window.close();
-        }
-
-        $scope.windows = getWindowsDefault();
+colegios.controller('IndexController', ['$scope', '$translate', '$auth', '$location', '$state', 'toastr', 'UsService', function ($scope, $translate, $auth, $location, $state, toastr, UsService) {
         $scope.langs = getLangs();
         $scope.lan = "es";
+        $scope.lg = {user: '', pwd: ''};
         $scope.lang = {"valor": "es", "url": "resources/img/bandera_guate.jpg"};
         $scope.updateLang = function (lan) {
             $scope.lan = lan;
             $translate.use(lan);
         };
 
-        $scope.authenticate = function () {
-            var extraParams = $scope.askApproval ? {approval_prompt: 'force'} : {};
-            Token.getTokenByPopup(extraParams)
-                    .then(function (params) {
-                        // Success getting token from popup.
+        $scope.rutaOpen = "pvpages/login-form.html";
+        //$scope.rutaOpen = "pvpages/index.html";
 
-                        // Verify the token before setting it, to avoid the confused deputy problem.
-                        Token.verifyAsync(params.access_token).
-                                then(function (data) {
-                                    $rootScope.$apply(function () {
-                                        $scope.accessToken = params.access_token;
-                                        $scope.expiresIn = params.expires_in;
+        $scope.menus = [
+            {
+                id: 1,
+                txtName: 'Generales',
+                idPadre: 0
+            },
+            {
+                id: 2,
+                txtName: 'Recibidos',
+                idPadre: 1,
+                icon: "resources/img/icons/more_vert.svg"
+            },
+            {
+                id: 3,
+                txtName: 'Pospuestos',
+                idPadre: 1
+            },
+            {
+                id: 4,
+                txtName: 'Completados',
+                idPadre: 1
+            },
+            {
+                id: 5,
+                txtName: 'Otros',
+                idPadre: 0
+            },
+            {
+                id: 6,
+                txtName: 'Borradores',
+                idPadre: 5
+            },
+            {
+                id: 7,
+                txtName: 'Enviados',
+                idPadre: 5
+            },
+            {
+                id: 8,
+                txtName: 'Recordatorios',
+                idPadre: 5
+            },
+            {
+                id: 9,
+                txtName: 'Papelera',
+                idPadre: 5
+            },
+            {
+                id: 10,
+                txtName: 'Spam',
+                idPadre: 5
+            },
+            {
+                id: 11,
+                txtName: 'Contactos',
+                idPadre: 5
+            },
+            {
+                id: 12,
+                txtName: 'Gmail',
+                idPadre: 5
+            }
+        ];
 
-                                        Token.set(params.access_token);
-                                    });
-                                }, function () {
-                                    alert("Failed to verify token.")
-                                });
+        $scope.login = function () {
+            UsService.login($scope.lg).success(function (dta) {
+                alert(JSON.stringify(dta));
+            }).error(function (dta) {
+                toastr.error(dta);
+            });
+        };
 
-                    }, function () {
-                        // Failure getting token from popup.
-                        alert("Failed to get token from popup.");
+        $scope.authenticate = function (provider) {
+            $auth.authenticate(provider)
+                    .then(function () {
+                        toastr.success('You have successfully signed in with ' + provider + '!');
+                        $location.path('/');
+                    })
+                    .catch(function (error) {
+                        if (error.error) {
+                            // Popup error - invalid redirect_uri, pressed cancel button, etc.
+                            toastr.error(error.error);
+                        } else if (error.data) {
+                            // HTTP response error from server
+                            toastr.error(error.data.message, error.status);
+                        } else {
+                            toastr.error(error);
+                        }
                     });
         };
 
         $scope.menuSelect = function (branch) {
             $state.go(branch);
         };
+    }]);
+
+colegios.controller('ctrlMenu', ['$scope', function ($scope) {
+        $.getScript("resources/material/navbar/script.js")
+                .done(function (script, textStatus) {
+                    console.log(textStatus);
+                })
+                .fail(function (jqxhr, settings, exception) {
+                    $("div.log").text("Triggered ajaxError handler.");
+                });
     }]);

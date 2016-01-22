@@ -1,0 +1,72 @@
+<md-card>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-hide="selected.length || filter.show">
+        <div class="md-toolbar-tools">
+            <h2 class="md-title">Colegios</h2>
+            <div flex></div>
+            <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter">
+                <md-icon md-svg-icon="resources/img/icons/ic_filter_list_white_24px.svg"></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="addItem($event)" aria-label="add">
+                <md-icon md-svg-icon="resources/img/icons/ic_add_circle_white_24px.svg"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar md-default" ng-show="filter.show && !selected.length">
+        <div class="md-toolbar-tools">
+            <md-icon md-svg-icon="resources/img/icons/ic_search_white_24px.svg"></md-icon>
+            <form flex name="filter.form">
+                <input type="text" ng-model="query.filter" ng-model-options="filter.options" placeholder="search">
+            </form>
+            <md-button class="md-icon-button" ng-click="removeFilter()"  aria-label="close">
+                <md-icon md-svg-icon="resources/img/icons/ic_close_white_24px.svg"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-toolbar class="md-table-toolbar alternate" ng-show="selected.length">
+        <div class="md-toolbar-tools">
+            <div>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</div>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-show="selected.length === 1" ng-click="edit($event)" aria-label="edit">
+                <md-icon md-svg-icon="resources/img/icons/ic_mode_edit_white_24px.svg"></md-icon>
+            </md-button>
+            <md-button class="md-icon-button" ng-click="delete($event)" aria-label="delete">
+                <md-icon md-svg-icon="resources/img/icons/ic_delete_white_24px.svg"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <!-- exact table from live demo -->
+    <md-table-container style="min-height: 300px">
+        <table md-table md-row-select ng-model="selected" md-progress="promise">
+            <thead md-head md-order="query.order" md-on-reorder="onReorder">
+                <tr md-row>
+                    <th md-column><span>{{'school.nit'| translate}}</span></th>
+                    <th md-column md-order-by="txtNameToLower"><span>{{'school.name'| translate}}</span></th>
+                    <th md-column>{{'address.txtNumberHouse'| translate}}</th>
+                    <th md-column>{{'address.txtIndications'| translate}}</th>
+                    <th md-column md-numeric>{{'address.intZone'| translate}}</th>
+                    <th md-column>{{'address.city'| translate}}</th>
+                    <th md-column>{{'address.state'| translate}}</th>
+                    <th md-column>{{'address.country'| translate}}</th>
+                </tr>
+            </thead>
+            <tbody md-body>
+                <tr md-row md-select="school" md-select-id="{{school.id}}" md-auto-select ng-repeat="school in schools.data">
+                    <td md-cell>{{school.nit}}</td>
+                    <td md-cell>{{school.txtName}}</td>
+                    <td md-cell>{{school.address.txtNumberHouse}}</td>
+                    <td md-cell>{{school.address.txtIndications}}</td>
+                    <td md-cell>{{school.address.intZone| number: 1}}</td>
+                    <td md-cell>{{school.address.city.txtName}}</td>
+                    <td md-cell>{{school.address.city.state.txtName}}</td>
+                    <td md-cell>{{school.address.city.state.country.txtName}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </md-table-container>
+
+    <md-table-pagination md-limit="query.limit" md-page="query.page" md-total="{{schools.count}}" md-on-paginate="onPaginate" md-page-select></md-table-pagination>
+</md-card>

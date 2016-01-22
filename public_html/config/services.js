@@ -34,6 +34,14 @@ colegios.service('UsService', function ($http, WSServerCon) {
         });
     };
 
+    service.login = function (data) {
+        return $http({
+            url: getUrl() + 'login',
+            method: 'POST',
+            params: {'sUsuario': data.user, 'pwd': data.pwd}
+        });
+    };
+
     service.getUrl = function () {
         return getUrl();
     };
@@ -102,4 +110,19 @@ colegios.service('DocumentTypeService', function ($http, WSServerCon) {
     service.getAll = function () {
         return $http.get(getUrl() + 'get');
     };
+});
+
+colegios.service('$schools', function ($http, WSServerCon) {
+    var service = {},
+            path = "school/";
+
+    function getUrl() {
+        return WSServerCon + path;
+    }
+
+    service.getSchools = function (data) {
+        return $http.get(getUrl() + 'get');
+    };
+
+    return service;
 });

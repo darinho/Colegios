@@ -1,0 +1,63 @@
+<md-dialog aria-label="Nuevo Colegio"  ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h1>{{'Nuevo Colegio'}}</h1>
+        </div>
+    </md-toolbar>
+    <form ng-submit="saved();">
+        <md-content>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'school.name'| translate}}</label>
+                    <input ng-model="school.txtName">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'school.nit'| translate}}</label>
+                    <input ng-model="school.nit">
+                </md-input-container>
+            </div>
+        </md-content>
+        <md-content>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'address.txtNumberHouse'| translate}}</label>
+                    <input ng-model="school.address.txtNumberHouse">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'address.txtIndications'| translate}}</label>
+                    <input ng-model="school.address.txtIndications">
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'address.intZone'| translate}}</label>
+                    <input ng-model="school.address.intZone">
+                </md-input-container>
+            </div>
+            <div layout-gt-sm="row">
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'address.country'| translate}}</label>
+                    <md-select id="country" ng-model="countri" name="country" required ng-required='true'>
+                        <md-option ng-repeat="c in countries" value="{{c}}">{{c.txtName}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'address.state'| translate}}</label>
+                    <md-select id="state"  ng-model="stat" name="state" required ng-required='true'>
+                        <md-option ng-repeat="s in country.states" value="{{s}}">{{s.txtName}}</md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-sm>
+                    <label>{{'address.city'| translate}}</label>
+                    <md-select id="city" ng-model="citi" name="city" required ng-required='true'>
+                        <md-option ng-repeat="cy in state.cities" value="{{cy}}">{{cy.txtName}}</md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+        </md-content>
+        <md-button style="position: absolute; right: 20px; background-color: skyblue" class="md-fab md-primary" aria-label="Save" ng-click="saved()">
+            <img src="https://www.megapaca.gt/lf/iconos/index.php?cmd=image&sfpg=bmVnLzMyLyppY28xNzcucG5nKjMzNzlhZDUxNzhmMTRmMWRmYjQ2NmM3NGY0NDlhYjhh"></img>
+            <md-tooltip>
+                {{'general.guardar'| translate}}
+            </md-tooltip>
+        </md-button>
+    </form>
+</md-dialog>

@@ -1,0 +1,48 @@
+<login class="ng-scope">
+    <md-content class="layout-fill layout-margin layout-align-center-start layout-row"> 
+        <md-whiteframe class="md-whiteframe-z2 layout-fill layout-column flex-md-50 flex-lg-50 flex-gt-lg-33 flex"> 
+            <md-toolbar class="md-primary md-tall layout-fill layout-align-end layout-column"> 
+                <div class="md-toolbar-tools md-toolbar-tools-bottom layout-row"> 
+                    <h3 class="md-display-1"> Sign in </h3> 
+                </div>
+            </md-toolbar> 
+            <div class="layout-fill layout-margin layout-padding layout-column"> 
+                <div class="layout-fill layout-margin layout-row"> 
+                    <p class="md-body-2"> Use existing account</p> 
+                </div> 
+                <div class="layout-fill layout-margin layout-padding layout-wrap layout-row"> 
+                    <md-button class="md-fab" style="background-color: red"> 
+                        <md-icon md-svg-icon="resources/img/icons/gplus.svg"></md-icon> 
+                    </md-button> 
+                </div> 
+                <md-divider class="inset"></md-divider> 
+                <div class="layout-fill layout-margin layout-row"> 
+                    <p class="md-body-2"> Sign in with your email</p>
+                </div> 
+                <form name="loginForm" class="ng-pristine layout-fill layout-margin layout-padding layout-column ng-invalid ng-invalid-required"> 
+                    <md-input-container> 
+                        <label for="input_6"> Email </label> 
+                        <input type="text" ng-model="login.credentials.email" aria-label="email" required="" class="ng-pristine ng-untouched md-input ng-invalid ng-invalid-required" id="input_6" aria-required="true" aria-invalid="true"> 
+                    </md-input-container> 
+                    <md-input-container> 
+                        <label for="input_7"> Password </label> 
+                        <input type="password" ng-model="login.credentials.password" aria-label="password" required="" class="ng-pristine ng-untouched md-input ng-invalid ng-invalid-required" id="input_7" aria-required="true" aria-invalid="true"> 
+                    </md-input-container> 
+                    <div class="layout-align-space-between-center layout-row"> 
+                        <a class="md-button" href="/resetpw">Forgot password?</a> 
+                        <md-button class="md-raised md-primary md-button md-ink-ripple" ng-click="login.login()" aria-label="login" ng-disabled="login.loginForm.$invalid()" aria-disabled="false">
+                            <span class="ng-scope">Sign In </span>
+                        </md-button> 
+                    </div> 
+                </form> 
+                <md-toolbar ng-show="login.error" class="md-warn layout-fill layout-margin layout-padding layout-row ng-hide" aria-hidden="true"> 
+                    <p class="md-body-1 ng-binding"></p> 
+                </md-toolbar> 
+                <md-divider></md-divider> 
+                <div class="layout-align-center layout-row"> 
+                    <a class="md-button" href="/register">Need an account?</a> 
+                </div> 
+            </div>
+        </md-whiteframe> 
+    </md-content>
+</login>

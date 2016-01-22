@@ -7,7 +7,7 @@
  * @Author  Almsaeed Studio
  * @Support <http://www.almsaeedstudio.com>
  * @Email   <support@almsaeedstudio.com>
- * @version 2.3.0
+ * @version 2.3.2
  * @license MIT <http://opensource.org/licenses/MIT>
  */
 
@@ -48,7 +48,7 @@ $.AdminLTE.options = {
   //Activate sidebar push menu
   sidebarPushMenu: true,
   //Activate sidebar slimscroll if the fixed layout is set (requires SlimScroll Plugin)
-  sidebarSlimScroll: true,
+  sidebarSlimScroll: false,
   //Enable sidebar expand on hover effect for sidebar mini
   //This option is forced to true if both the fixed layout and sidebar mini
   //are used together
@@ -146,8 +146,8 @@ $(function () {
   //Extend options if external options exist
   if (typeof AdminLTEOptions !== "undefined") {
     $.extend(true,
-            $.AdminLTE.options,
-            AdminLTEOptions);
+        $.AdminLTE.options,
+        AdminLTEOptions);
   }
 
   //Easy access to options
@@ -249,20 +249,20 @@ function _init() {
     },
     fix: function () {
       //Get window height and the wrapper height
-      var neg = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
+      /*var neg = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
       var window_height = $(window).height();
       var sidebar_height = $(".sidebar").height();
       //Set the min-height of the content and sidebar based on the
       //the height of the document.
       if ($("body").hasClass("fixed")) {
-        $(".content-wrapper, .right-side").css('min-height', window_height - $('.main-footer').outerHeight());
+//        $(".content-wrapper, .right-side").css('min-height', window_height - $('.main-footer').outerHeight());
       } else {
         var postSetWidth;
         if (window_height >= sidebar_height) {
-          $(".content-wrapper, .right-side").css('min-height', window_height - neg);
+//          $(".content-wrapper, .right-side").css('min-height', window_height - neg);
           postSetWidth = window_height - neg;
         } else {
-          $(".content-wrapper, .right-side").css('min-height', sidebar_height);
+//          $(".content-wrapper, .right-side").css('min-height', sidebar_height);
           postSetWidth = sidebar_height;
         }
 
@@ -270,10 +270,10 @@ function _init() {
         var controlSidebar = $($.AdminLTE.options.controlSidebarOptions.selector);
         if (typeof controlSidebar !== "undefined") {
           if (controlSidebar.height() > postSetWidth)
-            $(".content-wrapper, .right-side").css('min-height', controlSidebar.height());
+//            $(".content-wrapper, .right-side").css('min-height', controlSidebar.height());
         }
 
-      }
+      }*/
     },
     fixSidebar: function () {
       //Make sure the body tag has the .fixed class
@@ -314,7 +314,7 @@ function _init() {
       var screenSizes = $.AdminLTE.options.screenSizes;
 
       //Enable sidebar toggle
-      $(toggleBtn).on('click', function (e) {
+      $(document).on('click', toggleBtn, function (e) {
         e.preventDefault();
 
         //Enable sidebar push menu
@@ -344,8 +344,8 @@ function _init() {
 
       //Enable expand on hover for sidebar mini
       if ($.AdminLTE.options.sidebarExpandOnHover
-              || ($('body').hasClass('fixed')
-                      && $('body').hasClass('sidebar-mini'))) {
+          || ($('body').hasClass('fixed')
+          && $('body').hasClass('sidebar-mini'))) {
         this.expandOnHover();
       }
     },
@@ -355,14 +355,14 @@ function _init() {
       //Expand sidebar on hover
       $('.main-sidebar').hover(function () {
         if ($('body').hasClass('sidebar-mini')
-                && $("body").hasClass('sidebar-collapse')
-                && $(window).width() > screenWidth) {
+            && $("body").hasClass('sidebar-collapse')
+            && $(window).width() > screenWidth) {
           _this.expand();
         }
       }, function () {
         if ($('body').hasClass('sidebar-mini')
-                && $('body').hasClass('sidebar-expanded-on-hover')
-                && $(window).width() > screenWidth) {
+            && $('body').hasClass('sidebar-expanded-on-hover')
+            && $(window).width() > screenWidth) {
           _this.collapse();
         }
       });
@@ -388,13 +388,13 @@ function _init() {
   $.AdminLTE.tree = function (menu) {
     var _this = this;
     var animationSpeed = $.AdminLTE.options.animationSpeed;
-    $(document).on('click', menu + ' li a', function (e) {
+    $(menu).on('click', 'li a', function (e) {
       //Get the clicked link and the next element
       var $this = $(this);
       var checkElement = $this.next();
 
       //Check if the next element is a menu and is visible
-      if ((checkElement.is('.treeview-menu')) && (checkElement.is(':visible'))) {
+      if ((checkElement.is('.treeview-menu')) && (checkElement.is(':visible')) && (!$('body').hasClass('sidebar-collapse'))) {
         //Close the menu
         checkElement.slideUp(animationSpeed, function () {
           checkElement.removeClass('menu-open');
@@ -455,7 +455,7 @@ function _init() {
         e.preventDefault();
         //If the sidebar is not open
         if (!sidebar.hasClass('control-sidebar-open')
-                && !$('body').hasClass('control-sidebar-open')) {
+            && !$('body').hasClass('control-sidebar-open')) {
           //Open the sidebar
           _this.open(sidebar, o.slide);
         } else {
@@ -520,7 +520,7 @@ function _init() {
       });
     },
     _fixForContent: function (sidebar) {
-      $(".content-wrapper, .right-side").css('min-height', sidebar.height());
+//      $(".content-wrapper, .right-side").css('min-height', sidebar.height());
     }
   };
 
@@ -563,8 +563,8 @@ function _init() {
       if (!box.hasClass("collapsed-box")) {
         //Convert minus into plus
         element.children(":first")
-                .removeClass(_this.icons.collapse)
-                .addClass(_this.icons.open);
+            .removeClass(_this.icons.collapse)
+            .addClass(_this.icons.open);
         //Hide the content
         box_content.slideUp(_this.animationSpeed, function () {
           box.addClass("collapsed-box");
@@ -572,8 +572,8 @@ function _init() {
       } else {
         //Convert plus into minus
         element.children(":first")
-                .removeClass(_this.icons.open)
-                .addClass(_this.icons.collapse);
+            .removeClass(_this.icons.open)
+            .addClass(_this.icons.collapse);
         //Show the content
         box_content.slideDown(_this.animationSpeed, function () {
           box.removeClass("collapsed-box");
@@ -672,14 +672,16 @@ function _init() {
 
 })(jQuery);
 
-/*
- * EXPLICIT BOX ACTIVATION
+ /*
+ * EXPLICIT BOX CONTROLS
  * -----------------------
  * This is a custom plugin to use with the component BOX. It allows you to activate
- * a box inserted in the DOM after the app.js was loaded.
+ * a box inserted in the DOM after the app.js was loaded, toggle and remove box.
  *
  * @type plugin
  * @usage $("#box-widget").activateBox();
+ * @usage $("#box-widget").toggleBox();
+ * @usage $("#box-widget").removeBox();
  */
 (function ($) {
 
@@ -687,6 +689,16 @@ function _init() {
 
   $.fn.activateBox = function () {
     $.AdminLTE.boxWidget.activate(this);
+  };
+
+  $.fn.toggleBox = function(){
+    var button = $($.AdminLTE.boxWidget.selectors.collapse, this);
+    $.AdminLTE.boxWidget.collapse(button);
+  };
+
+  $.fn.removeBox = function(){
+    var button = $($.AdminLTE.boxWidget.selectors.remove, this);
+    $.AdminLTE.boxWidget.remove(button);
   };
 
 })(jQuery);

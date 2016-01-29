@@ -47,6 +47,40 @@ colegios.service('UsService', function ($http, WSServerCon) {
     };
 });
 
+colegios.service('$userprofile', function ($http, WSServerCon) {
+    var service = this,
+            path = 'userprofile/';
+
+    function getUrl() {
+        return WSServerCon + path;
+    }
+
+    service.getAll = function () {
+        return $http({
+            url: getUrl() + 'get',
+            method: 'GET'
+        });
+    };
+});
+
+colegios.service('$pantallaS', function ($http, WSServerCon) {
+    var service = this,
+            path = 'pantalla/';
+
+    function getUrl() {
+        return WSServerCon + path;
+    }
+
+    service.pantallaByUserHtml = function (idUsuario) {
+        return $http({
+            url: getUrl() + 'getbyapphtml',
+            method: 'GET',
+            params: {'idApp': APP, 'id': idUsuario}
+        });
+    };
+});
+
+
 colegios.service('CountryService', function ($http, WSServerCon) {
     var service = this,
             path = "country/";
@@ -86,7 +120,7 @@ colegios.service('CityService', function ($http, WSServerCon) {
     };
 });
 
-colegios.service('ProfileService', function ($http, WSServerCon) {
+colegios.service('$profiles', function ($http, WSServerCon) {
     var service = this,
             path = "profile/";
 
@@ -97,9 +131,56 @@ colegios.service('ProfileService', function ($http, WSServerCon) {
     service.getAll = function () {
         return $http.get(getUrl() + 'get');
     };
+
+    service.create = function (data) {
+        return $http({
+            url: getUrl() + 'set',
+            method: 'POST',
+            data: data
+        });
+    };
+
+    service.update = function (data) {
+        return $http({
+            url: getUrl() + 'set',
+            method: 'PUT',
+            data: data
+        });
+    };
+
 });
 
-colegios.service('DocumentTypeService', function ($http, WSServerCon) {
+colegios.service('$menus', function ($http, WSServerCon) {
+    var service = this,
+            path = "menu/";
+
+    function getUrl() {
+        return WSServerCon + path;
+    }
+
+    service.getAll = function () {
+        return $http.get(getUrl() + 'get');
+    };
+
+    service.create = function (data) {
+        return $http({
+            url: getUrl() + 'set',
+            method: 'POST',
+            data: data
+        });
+    };
+
+    service.update = function (data) {
+        return $http({
+            url: getUrl() + 'set',
+            method: 'PUT',
+            data: data
+        });
+    };
+
+});
+
+colegios.service('$documentsType', function ($http, WSServerCon) {
     var service = this,
             path = "documenttype/";
 
@@ -109,6 +190,51 @@ colegios.service('DocumentTypeService', function ($http, WSServerCon) {
 
     service.getAll = function () {
         return $http.get(getUrl() + 'get');
+    };
+
+    service.create = function (data) {
+        return $http({
+            url: getUrl() + 'set',
+            method: 'POST',
+            data: data
+        });
+    };
+
+    service.update = function (data) {
+        return $http({
+            url: getUrl() + 'set',
+            method: 'PUT',
+            data: data
+        });
+    };
+});
+
+colegios.service('$licenceType', function ($http, WSServerCon) {
+    var service = this,
+            path = "licencetype/";
+
+    function getUrl() {
+        return WSServerCon + path;
+    }
+
+    service.getAll = function () {
+        return $http.get(getUrl() + 'get');
+    };
+
+    service.create = function (data) {
+        return $http({
+            url: getUrl(),
+            method: 'POST',
+            data: data
+        });
+    };
+
+    service.update = function (data) {
+        return $http({
+            url: getUrl(),
+            method: 'PUT',
+            data: data
+        });
     };
 });
 
@@ -120,8 +246,24 @@ colegios.service('$schools', function ($http, WSServerCon) {
         return WSServerCon + path;
     }
 
-    service.getSchools = function (data) {
+    service.getAll = function (data) {
         return $http.get(getUrl() + 'get');
+    };
+
+    service.create = function (data) {
+        return $http({
+            url: getUrl() + 'set',
+            method: 'POST',
+            data: data
+        });
+    };
+
+    service.update = function (data) {
+        return $http({
+            url: getUrl() + 'set',
+            method: 'PUT',
+            data: data
+        });
     };
 
     return service;

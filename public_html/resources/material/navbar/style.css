@@ -48,11 +48,8 @@ buttons {
     min-height: 100%;
     overflow-x: hidden;
     margin-left: 0px;
-    transition: margin-left 0.2s;
-
-    /* sticky bottom */
+    transition: margin-left 0.2s;/* sticky bottom */
     margin-bottom: -160px;
-    padding-bottom: 160px;
 }
 
 #footer {

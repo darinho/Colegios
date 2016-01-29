@@ -155,6 +155,7 @@
         "txt_selection": "Seleccione",
         "lbl_porcentaje": "Porcentaje",
         "txt_descripcion": "Descripcion",
+        "txtDescription": "Descripcion",
         "txt_si": "Si",
         "txt_no": "No",
         "txt_domingo": "Domingo",
@@ -176,6 +177,37 @@
         "txt_septiembre": "Septiembre",
         "txt_octubre": "Octubre",
         "txt_noviembre": "Noviembre",
-        "txt_diciembre": "Diciembre"
+        "txt_diciembre": "Diciembre",
+        "address": "Dirección",
+        "selected": "seleccionado"
+    },
+    "school": {
+        "new": "Nuevo Colegio",
+        "edit": "Actualizar Colegio",
+        "name": "Nombre",
+        "nit": "Nit"
+    },
+    "profile": {
+        "new": "Nuevo Perfil",
+        "edit": "Actualizar Perfil"
+    },
+    "documentType": {
+        "title": "Tipo de Documento",
+        "new": "Nuevo Tipo de Documento",
+        "edit": "Actualizar Tipo de Documento"
+    },
+    "licenceType": {
+        "title": "Tipo de Licencia",
+        "new": "Nuevo Tipo de Licencia",
+        "edit": "Actualizar Tipo de Licencia"
+    },
+    "address": {
+        "txtNumberHouse": "Número de Casa",
+        "txtColony": "Colonia",
+        "txtIndications": "Indicaciones",
+        "intZone": "Zona",
+        "country": "Pais",
+        "state": "Departamento/Estado",
+        "city": "Municipio/Ciudad"
     }
 }

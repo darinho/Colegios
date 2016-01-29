@@ -1350,7 +1350,8 @@ input {
     margin: 0;
     width: 100%;
     min-height: 100%;
-    height: 100%; }
+    height: 100%;
+    }
 
 /**
  * `hide-gt-sm show-gt-lg` should hide from 600px to 1200px
@@ -2843,7 +2844,8 @@ input {
         flex: 1 1 50%;
         max-width: 50%;
         max-height: 100%;
-        box-sizing: border-box; }
+        box-sizing: border-box;
+        }
     .layout-column > .flex-gt-xs-50,
     .layout-gt-xs-column > .flex-gt-xs-50 {
         -webkit-flex: 1 1 50%;
@@ -7252,7 +7254,8 @@ input {
         flex: 1 1 50%;
         max-width: 50%;
         max-height: 100%;
-        box-sizing: border-box; }
+        box-sizing: border-box;
+        }
     .layout-column > .flex-lg-50,
     .layout-lg-column > .flex-lg-50 {
         -webkit-flex: 1 1 50%;
@@ -9730,7 +9733,7 @@ button.md-button::-moz-focus-inner {
     padding: 0 6px;
     margin: 6px 8px;
     line-height: 36px;
-    min-height: 36px;
+    /* min-height: 36px; */
     background: transparent;
     white-space: nowrap;
     min-width: 88px;
@@ -11067,7 +11070,8 @@ md-icon {
     vertical-align: middle;
     fill: currentColor;
     height: 24px;
-    width: 24px; }
+    width: 24px;
+    }
 md-icon svg {
     pointer-events: none; }
 md-icon[md-font-icon] {
@@ -12330,7 +12334,8 @@ md-progress-linear {
     width: 100%;
     height: 5px;
     padding-top: 0 !important;
-    margin-bottom: 0 !important; }
+    margin-bottom: 0 !important;
+    }
 md-progress-linear .md-container {
     display: block;
     position: relative;
@@ -13964,7 +13969,8 @@ md-toolbar *:after {
 md-toolbar.md-tall {
     height: 128px;
     min-height: 128px;
-    max-height: 128px; }
+    max-height: 128px;
+    }
 md-toolbar.md-medium-tall {
     height: 88px;
     min-height: 88px;

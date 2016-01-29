@@ -15,6 +15,23 @@
                     <span class="logo-lg"><b>Colegios</b></span>
                 </a>
                 <span flex></span>
+                <md-menu md-offset="0 -7">
+                    <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)" aria-label='Open Lang'>
+                        <md-icon md-svg-icon="resources/img/icons/ic_language_white_24px.svg"></md-icon>
+                        <md-tooltip md-direction="bottom">{{lang.name}}</md-tooltip>
+                    </md-button>
+                    <md-menu-content width="2" style="margin-top: 56px; padding: 20px">
+                        <md-menu-item class="header">{{'login.seleccioneIdioma'|translate}}</md-menu-item>
+                        <md-menu-item>
+                            <div ng-repeat="l in langs">
+                                <md-button class="md-icon-button" aria-label='{{l.name}}' ng-click="updateLang(l)">
+                                    <img class="img-space-circle" ng-src="{{l.url}}"/>
+                                </md-button>
+                                <span flex></span>
+                            </div>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
                 <md-button class="md-icon-button" aria-label="Apps">
                     <md-icon md-svg-icon="resources/img/icons/ic_apps_white_24px.svg"></md-icon>
                 </md-button>
@@ -25,7 +42,7 @@
                     <md-button aria-label="Open demo menu" class="md-icon-button" ng-click="$mdOpenMenu($event)">
                         <img src="resources/img/avatar04.png" class="image-icone" alt="User Image">
                     </md-button>
-                    <md-menu-content width="3" style="margin-top: 56px">
+                    <md-menu-content width="3" style="margin-top: 56px; padding: 20px">
                         <md-menu-item class="user-header" style="height: 100px">
                             <img src="resources/img/avatar04.png" class="img-circle" style="width: 70px" alt="User Image">
                             <p class="ng-binding">
@@ -33,7 +50,7 @@
                             </p>
                         </md-menu-item>
 
-                        <md-menu-item style="padding: 20px">
+                        <md-menu-item>
                             <md-button class="md-raised md-primary" ng-click="perfil()">Mi Perfil</md-button>
                             <span flex></span>
                             <md-button class="md-raised md-warn" ng-click="logout()">Salir</md-button>
@@ -46,13 +63,11 @@
     <div id="sidedrawer" class="sidebar-config">
         <div class="fv-nav-g-col-left tTwEpb">
             <div role="menu" class="lQ-g-col-left">
-                <ul class="Y" ng-repeat="m1 in menus| filter:{ idPadre: 0 }">
-                    <li class="bR">{{m1.txtName| translate}}</li>
-                    <li role="menuitem" class="oin9Fc cQ HZ" ng-repeat="m in menus| filter:{ idPadre: m1.id }">
-                        <a ui-sref="m.link">
-                            <md-icon md-svg-icon="{{m.icon}}"></md-icon>
-                            {{m.txtName}}
-                        </a>
+                <ul class="Y" ng-repeat="m1 in menus| filter:{ menu:{idParent: 0} }">
+                    <li class="bR">{{m1.menu.txtName| translate}}</li>
+                    <li role="menuitem" class="oin9Fc cQ HZ" ng-repeat="m in menus| filter:{ menu:{idParent: m1.menu.idMenu} }" ui-sref="{{m.menu.txtLink}}">
+                    <md-icon md-svg-icon="{{m.menu.txtIcon}}"></md-icon>
+                    {{m.menu.txtName}}
                     </li>
                 </ul>
             </div>
@@ -62,7 +77,7 @@
         <div class="mui--appbar-height"></div>
         <div class="mui-container-fluid">
             <br>
-            <md-content  ui-view="content">
+            <md-content style='background-color: #f2f2f2;' ui-view="content">
             </md-content>
         </div>
     </div>

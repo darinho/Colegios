@@ -97,7 +97,13 @@ and open the template in the editor.
     top: 0;
 }
 
-
+.img-space-circle {
+    width: 60px;
+    position: absolute;
+    top: 0;
+    left: -9.5px;
+    border-radius: 50%;
+}
 
 .Y {
     border-bottom: 1px solid #ddd;
@@ -173,8 +179,7 @@ and open the template in the editor.
 
 html,
 body,
-md-content {
-    background-color: #f5f5f5 !important;
+md-content {   
     -moz-osx-font-smoothing: grayscale;
 }
 a {
@@ -284,4 +289,8 @@ md-dialog[add-item-dialog] > md-dialog-content > form > .input-row {
 }
 md-dialog[add-item-dialog] > md-dialog-content > form > .input-row > md-input-container {
     min-width: 120px;
+}
+
+.md-editing-cl {
+    background-color: #FF6E40;
 }

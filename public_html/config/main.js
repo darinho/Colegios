@@ -20,21 +20,58 @@ var colegios = angular.module('Colegios', ['angular-storage', 'ui.router', 'pasc
                         url: '/login',
                         views: {
                             "index": {
-                                templateUrl: 'pvpages/login-form.html'
+                                templateUrl: 'pvpages/login-form.html',
+                                controller: 'LoginController'
                             }
                         }
                     })
-                    .state('/user', {
-                        url: '/user',
-                        controller: 'ctrlUser',
-                        templateUrl: 'pvpages/admin/users.html'
+                    .state('user', {
+                        url: 'user',
+                        parent: "/index",
+                        views: {
+                            "content": {
+                                controller: 'ctrlUser',
+                                templateUrl: 'pvpages/admin/user/users.html'
+                            }
+                        }
                     })
-                    .state('/school', {
-                        url: '/school',
+                    .state('school', {
+                        url: 'school',
+                        parent: '/index',
                         views: {
                             "content": {
                                 controller: 'ctrlSchool',
                                 templateUrl: 'pvpages/admin/school/school.html'
+                            }
+                        }
+                    })
+                    .state('licenceType', {
+                        url: 'lt',
+                        parent: '/index',
+                        views: {
+                            "content": {
+                                controller: 'ctrlLicenceType',
+                                templateUrl: 'pvpages/admin/licenceType/licenceType.html'
+                            }
+                        }
+                    })
+                    .state('documentType', {
+                        url: 'dt',
+                        parent: '/index',
+                        views: {
+                            "content": {
+                                controller: 'ctrlDocumentType',
+                                templateUrl: 'pvpages/admin/documentType/documentType.html'
+                            }
+                        }
+                    })
+                    .state('profile', {
+                        url: 'profile',
+                        parent: '/index',
+                        views: {
+                            "content": {
+                                controller: 'ctrlProfile',
+                                templateUrl: 'pvpages/admin/profile/profile.html'
                             }
                         }
                     });
@@ -97,3 +134,41 @@ var colegios = angular.module('Colegios', ['angular-storage', 'ui.router', 'pasc
                     .primaryPalette('blue');
 
         });
+
+colegios.provider('$dashboardState', function ($stateProvider) {
+    this.$get = function (PATHS, $state) {
+        return {
+            /**
+             * @function app.dashboard.dashboardStateProvider.addState
+             * @memberof app.dashboard
+             * @param {string} title - the title used to build state, url & find template
+             * @param {string} controllerAs - the controller to be used, if false, we don't add a controller (ie. 'UserController as user')
+             * @param {string} templatePrefix - either 'content', 'presentation' or null
+             * @param {string} view
+             * @param {string} parent
+             * @author Dario Calderon
+             * @description adds states to the dashboards state provider dynamically
+             * @returns {object} user - token and id of user
+             */
+            addState: function (title, controllerAs, templatePrefix, view, parent) {
+                var objectState = {
+                    url: '/' + title,
+                    views: {
+                    }
+                };
+
+                if (parent) {
+                    objectState.parent = parent;
+                }
+
+                objectState.views[view] = {
+                    templateUrl: templatePrefix,
+                    controller: controllerAs ? controllerAs : null
+                };
+
+                $stateProvider.state('/' + title, objectState);
+            }
+        }
+    }
+});
+		

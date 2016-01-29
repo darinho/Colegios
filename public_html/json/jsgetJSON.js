@@ -40,8 +40,8 @@ function getWindowsDefault() {
 
 function getLangs() {
     return [
-        {"valor": "es", "url": "resources/img/bandera_guate.jpg"},
-        {"valor": "en", "url": "resources/img/bandera_usa.jpg"}
+        {"valor": "es", "url": "resources/img/bandera_guate.jpg", "name": "Español"},
+        {"valor": "en", "url": "resources/img/bandera_usa.jpg", "name": "English"}
     ];
 }
 

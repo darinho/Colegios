@@ -5,7 +5,16 @@
  */
 
 
-colegios.controller('IndexController', ['$scope', '$translate', '$auth', '$location', '$state', 'toastr', 'UsService', function ($scope, $translate, $auth, $location, $state, toastr, UsService) {
+colegios.controller('IndexController', ['$rootScope', '$scope', '$translate', '$auth', '$location', '$state', 'toastr', 'UsService', '$cookies', function ($rootScope, $scope, $translate, $auth, $location, $state, toastr, UsService, $cookies) {
+
+        var ses;
+        if ($cookies.getObject('SesionCollege') && $cookies.getObject('SesionCollege') !== "") {
+            ses = $cookies.getObject('SesionCollege');
+            $rootScope.user = ses.user;
+            $rootScope.profileLoad = ses.userProfile;
+        } else {
+            $state.go('/login');
+        }
         $scope.langs = getLangs();
         $scope.lan = "es";
         $scope.lg = {user: '', pwd: ''};
@@ -16,7 +25,24 @@ colegios.controller('IndexController', ['$scope', '$translate', '$auth', '$locat
             $translate.use(ln.valor);
         };
 
-        $scope.menus = [{
+        $scope.perfil = function () {
+            $state.go('/perfilUser');
+        };
+
+        $scope.logout = function () {
+            if ($cookies.getObject('SesionCollege')) {
+                UsService.usuarioLogout($cookies.getObject('SesionCollege'));
+            }
+            $cookies.remove('SesionCollege');
+            $rootScope.user = null;
+            ses = null;
+            $rootScope.menu = [];
+            $rootScope.profilesU = [];
+            $rootScope.islogin = false;
+            $state.go('/login');
+        };
+
+        $rootScope.menus = [{
                 menu: {
                     idMenu: 1,
                     txtName: 'Generales',
@@ -69,16 +95,17 @@ colegios.controller('IndexController', ['$scope', '$translate', '$auth', '$locat
                     txtIcon: "resources/img/icons/more_vert.svg",
                     txtLink: "user"
                 }
+            },
+            {
+                menu: {
+                    idMenu: 7,
+                    txtName: 'Menu',
+                    idParent: 1,
+                    txtIcon: "resources/img/icons/more_vert.svg",
+                    txtLink: "menu"
+                }
             }
         ];
-
-        $scope.login = function () {
-            UsService.login($scope.lg).success(function (dta) {
-                alert(JSON.stringify(dta));
-            }).error(function (dta) {
-                toastr.error(dta);
-            });
-        };
     }]);
 
 colegios.controller('ctrlMenu', ['$scope', function ($scope) {
@@ -91,10 +118,20 @@ colegios.controller('ctrlMenu', ['$scope', function ($scope) {
                 });
     }]);
 
-colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$pantallaS', '$state', '$translate', '$filter', '$localStorage', '$cookies', '$auth', function ($rootScope, $scope, UsService, $pantallaS, $state, $translate, $filter, $localStorage, $cookies, $auth) {
+colegios.controller('ctrlSelectProfile', ['$scope', 'pScope', 'profiles', '$mdDialog', function ($scope, pScope, profiles, $mdDialog) {
+        $scope.profiles = profiles;
+
+        $scope.select = function (prof) {
+            $mdDialog.hide(prof);
+        };
+    }]);
+
+colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$pantalla', '$state', '$translate', '$filter', '$localStorage', '$cookies', '$mdMedia', '$auth', '$mdDialog', function ($rootScope, $scope, UsService, $pantalla, $state, $translate, $filter, $localStorage, $cookies, $mdMedia, $auth, $mdDialog) {
 
         var ses;
-        $rootScope.menuAPP = [];
+        $rootScope.menu = [];
+        $rootScope.profilesU = [];
+
         $scope.$storage = $localStorage.$default({
             sTkMP: ""
         });
@@ -103,35 +140,34 @@ colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$p
             {"valor": "es", "url": "resources/img/bandera_guate.jpg"},
             {"valor": "en", "url": "resources/img/bandera_usa.jpg"}
         ];
-        if (!$cookies.SesionCollege) {
-            $cookies.SesionCollege = '';
+        if (!$cookies.getObject('SesionCollege')) {
             if ($scope.$storage.sTkMP !== "") {
-                $cookies.SesionCollege = $scope.$storage.sTkMP;
+                $cookies.putObject('SesionCollege', JSON.parse($scope.$storage.sTkMP));
                 UsService.validaSesion('').success(function (data) {
                     if (data) {
                         $scope.$storage.sTkMP = "";
                         $scope.loadInit();
                     } else {
-                        $cookies.SesionCollege = "";
+                        $cookies.remove('SesionCollege');
                         $scope.$storage.sTkMP = "";
                     }
                 }).error(function () {
-                    $cookies.SesionCollege = "";
+                    $cookies.remove('SesionCollege');
                     $scope.$storage.sTkMP = "";
                 });
             }
         } else if ($scope.$storage.sTkMP !== "") {
-            $cookies.SesionCollege = $scope.$storage.sTkMP;
+            $cookies.putObject('SesionCollege', JSON.parse($scope.$storage.sTkMP));
             UsService.validaSesion('').success(function (data) {
                 if (data) {
                     $scope.$storage.sTkMP = "";
                     $scope.loadInit();
                 } else {
-                    $cookies.SesionCollege = "";
+                    $cookies.remove('SesionCollege');
                     $scope.$storage.sTkMP = "";
                 }
             }).error(function () {
-                $cookies.SesionCollege = "";
+                $cookies.remove('SesionCollege');
                 $scope.$storage.sTkMP = "";
             });
         }
@@ -146,18 +182,23 @@ colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$p
         };
         $scope.credentials = {password: '', email: ''};
         var isLogin = false;
-        if ($cookies.SesionCollege !== '') {
-            ses = JSON.parse($cookies.SesionCollege);
-            UsService.usuarioById(ses.idUsuario).success(function (data) {
-                $rootScope.islogin = true;
-                $rootScope.usuario = data;
-                if (!data.snCambioPwd || !data.snCambioPwd2) {
-                    $rootScope.menuAPP = [];
+        if ($cookies.getObject('SesionCollege')) {
+            ses = $cookies.getObject('SesionCollege');
+            UsService.validSesion().success(function (resultU) {
+                var data = resultU;
+                $rootScope.user = data.user;
+                var user = data.user;
+                data.idUser = user.idUser;
+                data.sUser = user.txtUser;
+                ses = data;
+                if (user.snChangePwd) {
+                    $rootScope.profilesU = [];
+                    $rootScope.menu = [];
+                    $rootScope.islogin = true;
                     $state.go('/perfilUser');
                 } else {
                     loadMenu(data);
                 }
-                //document.getElementById('divMain').hidden = false;
             }).error(function () {
                 $scope.logout();
             });
@@ -165,20 +206,39 @@ colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$p
 
         var loadMenu = function (data) {
             $rootScope.profilesU = data.userProfiles;
-            if ($rootScope.profilesU.length === 1) {
-                if ($rootScope.menuAPP.length === 0) {
-                    $pantallaS.pantallaByProfileHtml($rootScope.profilesU[0].profile.idProfile).then(function (result) {
-                        $rootScope.menuAPP = JSON.parse(result.data);
-                        $scope.validaInicio();
-                    });
-                } else {
-                    $scope.validaInicio();
-                }
+            if (data.userProfile) {
+                $rootScope.profileLoad = data.userProfile;
+                $cookies.putObject('SesionCollege', data);
+                getMenusRemote();
             } else if ($rootScope.profilesU.length > 1) {
+                var useFullScreen = ($mdMedia('sm') || $mdMedia('xs')) && $scope.customFullscreen;
+                $mdDialog.show({
+                    controller: 'ctrlSelectProfile',
+                    templateUrl: 'pvpages/selectProfile.html',
+                    parent: angular.element(document.body),
+                    locals: {
+                        pScope: $scope,
+                        profiles: $rootScope.profilesU
+                    },
+                    clickOutsideToClose: false,
+                    fullscreen: useFullScreen
+                }).then(function (answer) {
+                    $rootScope.profileLoad = answer;
+                    delete data.userProfiles;
+                    data.userProfile = answer;
+                    $cookies.putObject('SesionCollege', data);
+                    getMenusRemote();
+                }, function () {
 
+                });
+                $scope.$watch(function () {
+                    return $mdMedia('xs') || $mdMedia('sm');
+                }, function (wantsFullScreen) {
+                    $scope.customFullscreen = (wantsFullScreen === true);
+                });
             }
-        }
-
+        };
+        $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
         $scope.forgetPass = function (model) {
             $scope.labelPassRequired = $filter('translate')('login.passRequired');
             $scope.labelUserRequired = $filter('translate')('login.userRequired');
@@ -193,6 +253,18 @@ colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$p
                 $scope.loginForm.submitted = true;
             }
         };
+
+        function getMenusRemote() {
+            if ($rootScope.menu.length === 0) {
+                $pantalla.pantallaByUserHtml($rootScope.profileLoad.profile.idProfile).then(function (result) {
+                    $rootScope.menu = result.data;
+                    $scope.validaInicio();
+                });
+            } else {
+                $scope.validaInicio();
+            }
+        }
+
         $scope.checkEnter = function (event) {
             if (event.keyCode === 13) {
                 $scope.login($scope.model);
@@ -209,21 +281,19 @@ colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$p
             $scope.showPass = $scope.loginForm.passw.$error.required;
             $scope.showUser = $scope.loginForm.usernam.$error.required;
             if ($scope.loginForm.$valid) {
-                UsService.usuarioBylogin($scope.credentials).success(function (resultU) {
+                UsService.login($scope.credentials).success(function (resultU) {
                     var data = resultU;
-                    $rootScope.usuario = data.usuario;
-                    var user = data.usuario;
-                    delete data['usuario'];
-                    data.idUsuario = user.idUsuario;
-                    data.sUsuario = user.txtUsuario;
+                    $rootScope.user = data.user;
+                    var user = data.user;
+                    data.idUser = user.idUser;
+                    data.sUser = user.txtUser;
                     ses = data;
-                    $cookies.SesionCollege = JSON.stringify(ses);
+                    $cookies.putObject('SesionCollege', ses);
                     $scope.credentials.password = '';
                     $scope.credentials.email = '';
-                    if (!user.snCambioPwd || !user.snCambioPwd2) {
+                    if (user.snChangePwd) {
                         $rootScope.profilesU = [];
-                        $rootScope.profilesU = [];
-                        $rootScope.menuAPP = [];
+                        $rootScope.menu = [];
                         $rootScope.islogin = true;
                         //document.getElementById('divMain').hidden = false;
                         $state.go('/perfilUser');
@@ -234,22 +304,22 @@ colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$p
                     switch (status) {
                         case 400:
                             $scope.labelUserRequired = $filter('translate')('login.userIncorrecto');
-                            $scope.model.pass = '';
+                            $scope.credentials.password = '';
                             $scope.notf1.show({message: $filter('translate')('login.userIncorrecto')}, "error");
                             $scope.showUser = true;
                             break;
                         case 401:
                             $scope.labelPassRequired = $filter('translate')('login.passIncorrecto');
-                            $scope.model.pass = '';
-                            $scope.notf1.show({message: $filter('translate')('login.sinConexion')}, "error");
-                            break;
-                        case 404:
-                            $scope.model.pass = '';
-                            $scope.showPass = true;
+                            $scope.credentials.password = '';
                             $scope.notf1.show({message: $filter('translate')('login.passIncorrecto')}, "error");
                             break;
+                        case 404:
+                            $scope.credentials.password = '';
+                            $scope.showPass = true;
+                            $scope.notf1.show({message: $filter('translate')('login.sinConexion')}, "error");
+                            break;
                         default:
-                            $scope.model.pass = '';
+                            $scope.credentials.password = '';
                             $scope.notf1.show({message: $filter('translate')('login.internalError')}, "error");
                             break;
                     }
@@ -259,13 +329,13 @@ colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$p
             }
         };
         $scope.logout = function () {
-            if ($cookies.SesionCollege.length !== 0) {
-                UsService.usuarioLogout(JSON.parse($cookies.SesionCollege));
+            if ($cookies.getObject('SesionCollege')) {
+                UsService.usuarioLogout($cookies.getObject('SesionCollege'));
             }
-            $cookies.SesionCollege = '';
+            $cookies.remove('SesionCollege');
             $rootScope.usuario = null;
             ses = null;
-            $rootScope.menuAPP = [];
+            $rootScope.menu = [];
             $rootScope.profilesU = [];
             $rootScope.islogin = false;
             $state.go('/login');
@@ -278,7 +348,7 @@ colegios.controller('LoginController', ['$rootScope', '$scope', 'UsService', '$p
                     $rootScope.islogin = true;
                     $rootScope.usuario = data;
                     if (!data.snCambioPwd || !data.snCambioPwd2) {
-                        $rootScope.menuAPP = [];
+                        $rootScope.menu = [];
                         $rootScope.profilesU = [];
                         $state.go('/perfilUser');
                     } else {

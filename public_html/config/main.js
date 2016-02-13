@@ -74,6 +74,16 @@ var colegios = angular.module('Colegios', ['angular-storage', 'ui.router', 'pasc
                                 templateUrl: 'pvpages/admin/profile/profile.html'
                             }
                         }
+                    })
+                    .state('menu', {
+                        url: 'menu',
+                        parent: '/index',
+                        views: {
+                            "content": {
+                                controller: 'ctrlMenus',
+                                templateUrl: 'pvpages/admin/menu/menu.html'
+                            }
+                        }
                     });
 
             $translateProvider.useStaticFilesLoader({
@@ -85,14 +95,22 @@ var colegios = angular.module('Colegios', ['angular-storage', 'ui.router', 'pasc
             $httpProvider.interceptors.push(function ($q, $cookies) {
                 return {
                     'request': function (config) {
-                        if ($cookies.Sesion !== undefined && $cookies.Sesion !== null && $cookies.Sesion !== "") {
-                            var ses = JSON.parse($cookies.Sesion);
+                        if ($cookies.getObject('SesionCollege')) {
+                            var ses = $cookies.getObject('SesionCollege');
 
                             if (config.params === undefined) {
-                                config.params = {'token': ses.txtToken, 'idUsuario': ses.idUsuario};
+                                config.params = {'token': ses.token, 'idUser': ses.idUser, 'idSession': ses.idUserSession, 'sUser': ses.sUser};
+                                if(ses.profile){
+                                    config.params.idProfileC = ses.profile;
+                                }
                             } else {
-                                config.params.idUsuario = ses.idUsuario;
-                                config.params.token = ses.txtToken;
+                                config.params.idUser = ses.idUser;
+                                config.params.token = ses.token;
+                                config.params.idSession = ses.idUserSession;
+                                config.params.sUser = ses.sUser;
+                                if(ses.profile){
+                                    config.params.idProfileC = ses.profile;
+                                }
                             }
                         }
                         return config;
@@ -103,7 +121,7 @@ var colegios = angular.module('Colegios', ['angular-storage', 'ui.router', 'pasc
                 };
             });
 
-            $authProvider.baseUrl = '/Colegios';
+            $authProvider.baseUrl = '/Colegios/';
 
             $authProvider.google({
                 clientId: '403175311770-hr19ov9lm3c7moosa3k48581mkn1phle.apps.googleusercontent.com',
@@ -135,40 +153,6 @@ var colegios = angular.module('Colegios', ['angular-storage', 'ui.router', 'pasc
 
         });
 
-colegios.provider('$dashboardState', function ($stateProvider) {
-    this.$get = function (PATHS, $state) {
-        return {
-            /**
-             * @function app.dashboard.dashboardStateProvider.addState
-             * @memberof app.dashboard
-             * @param {string} title - the title used to build state, url & find template
-             * @param {string} controllerAs - the controller to be used, if false, we don't add a controller (ie. 'UserController as user')
-             * @param {string} templatePrefix - either 'content', 'presentation' or null
-             * @param {string} view
-             * @param {string} parent
-             * @author Dario Calderon
-             * @description adds states to the dashboards state provider dynamically
-             * @returns {object} user - token and id of user
-             */
-            addState: function (title, controllerAs, templatePrefix, view, parent) {
-                var objectState = {
-                    url: '/' + title,
-                    views: {
-                    }
-                };
-
-                if (parent) {
-                    objectState.parent = parent;
-                }
-
-                objectState.views[view] = {
-                    templateUrl: templatePrefix,
-                    controller: controllerAs ? controllerAs : null
-                };
-
-                $stateProvider.state('/' + title, objectState);
-            }
-        }
-    }
-});
-		
+colegios.run(['$state', function ($state) {
+        $state.transitionTo('/index');
+    }]);

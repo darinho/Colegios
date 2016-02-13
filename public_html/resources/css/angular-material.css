@@ -10804,7 +10804,8 @@ md-fab-speed-dial.md-fab-top-left {
     left: 20px;
     position: absolute; }
 md-fab-speed-dial:not(.md-hover-full) {
-    pointer-events: none; }
+    pointer-events: none;
+    }
 md-fab-speed-dial:not(.md-hover-full) md-fab-trigger, md-fab-speed-dial:not(.md-hover-full) .md-fab-action-item {
     pointer-events: auto; }
 md-fab-speed-dial:not(.md-hover-full).md-is-open {
@@ -10825,7 +10826,8 @@ md-fab-speed-dial md-fab-actions .md-fab-action-item {
 md-fab-speed-dial.md-down {
     -webkit-flex-direction: column;
     -ms-flex-direction: column;
-    flex-direction: column; }
+    flex-direction: column;
+    }
 md-fab-speed-dial.md-down md-fab-trigger {
     -webkit-order: 1;
     -ms-flex-order: 1;
@@ -11900,7 +11902,8 @@ md-list-item.md-2-line > .md-no-style .md-list-item-text {
 md-list-item.md-3-line,
 md-list-item.md-3-line > .md-no-style {
     height: auto;
-    min-height: 88px; }
+    /* min-height: 88px; */
+    }
 md-list-item.md-3-line.md-long-text,
 md-list-item.md-3-line > .md-no-style.md-long-text {
     margin: 1.6em; }
@@ -11916,7 +11919,8 @@ md-list-item.md-3-line > .md-no-style > .md-avatar {
     top: 0;
     z-index: 100;
     opacity: 0;
-    border-radius: 2px; }
+    border-radius: 2px;
+    }
 .md-open-menu-container md-menu-divider {
     margin-top: 4px;
     margin-bottom: 4px;
@@ -11931,7 +11935,8 @@ md-list-item.md-3-line > .md-no-style > .md-avatar {
 .md-open-menu-container.md-active {
     opacity: 1;
     transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-    transition-duration: 200ms; }
+    transition-duration: 200ms;
+    }
 .md-open-menu-container.md-active > md-menu-content > * {
     opacity: 1;
     transition: all 0.3s cubic-bezier(0.55, 0, 0.55, 0.2);
@@ -13965,7 +13970,8 @@ md-toolbar md-toolbar-filler {
 md-toolbar *,
 md-toolbar *:before,
 md-toolbar *:after {
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    }
 md-toolbar.md-tall {
     height: 128px;
     min-height: 128px;
@@ -13987,10 +13993,10 @@ md-toolbar ~ md-content > md-list md-list-item:last-child md-divider {
     display: none; }
 
 .md-toolbar-tools {
-    font-size: 20px;
-    letter-spacing: 0.005em;
-    box-sizing: border-box;
-    font-weight: 400;
+    /* font-size: 20px; */
+    /* letter-spacing: 0.005em; */
+    /* box-sizing: border-box; */
+    /* font-weight: 400; */
     display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
@@ -14004,7 +14010,8 @@ md-toolbar ~ md-content > md-list md-list-item:last-child md-divider {
     height: 64px;
     max-height: 64px;
     padding: 0 16px;
-    margin: 0; }
+    margin: 0;
+    }
 .md-toolbar-tools h1, .md-toolbar-tools h2, .md-toolbar-tools h3 {
     font-size: inherit;
     font-weight: inherit;

@@ -38,7 +38,14 @@ colegios.service('UsService', function ($http, WSServerCon) {
         return $http({
             url: getUrl() + 'login',
             method: 'POST',
-            params: {'sUsuario': data.user, 'pwd': data.pwd}
+            params: {'sUsuario': data.email, 'pwd': data.password}
+        });
+    };
+
+    service.validSesion = function () {
+        return $http({
+            url: getUrl() + 'session',
+            method: 'POST'
         });
     };
 
@@ -63,19 +70,18 @@ colegios.service('$userprofile', function ($http, WSServerCon) {
     };
 });
 
-colegios.service('$pantallaS', function ($http, WSServerCon) {
+colegios.service('$pantalla', function ($http, WSServerCon) {
     var service = this,
-            path = 'pantalla/';
+            path = 'menu/';
 
     function getUrl() {
         return WSServerCon + path;
     }
 
-    service.pantallaByUserHtml = function (idUsuario) {
+    service.pantallaByUserHtml = function (idProfile) {
         return $http({
-            url: getUrl() + 'getbyapphtml',
-            method: 'GET',
-            params: {'idApp': APP, 'id': idUsuario}
+            url: getUrl() + idProfile + '/get',
+            method: 'GET'
         });
     };
 });

@@ -20,7 +20,8 @@
         "userRequired": "Nombre de Usuario Requerido",
         "passRequired": "Contraseña Requerida",
         "passIncorrecto": "Contraseña Incorrecta",
-        "userIncorrecto": "Usuario no existe"
+        "userIncorrecto": "Usuario no existe",
+        "selectProfile": "Seleccione un Perfil"
     },
     "menu": {
     },

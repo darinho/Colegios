@@ -294,3 +294,11 @@ md-dialog[add-item-dialog] > md-dialog-content > form > .input-row > md-input-co
 .md-editing-cl {
     background-color: #FF6E40;
 }
+
+.customClass{
+    -webkit-animation: fadeInUp 0.5s;
+    -moz-animation: fadeInUp 0.5s;
+    -ms-animation: fadeInUp 0.5s;
+    /* animation: fadeInUp 0.5s; */
+    border-radius: 7px;
+}

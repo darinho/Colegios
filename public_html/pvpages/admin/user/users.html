@@ -1,4 +1,4 @@
-<md-toolbar>
+<md-toolbar class='md-table-toolbar md-default'>
     <div class="md-toolbar-tools">
         <h2 class="md-title">{{title|translate}}</h2>
         <form flex name="filter.form">
@@ -11,7 +11,7 @@
     </div>
 </md-toolbar>
 <md-content class='md-padding' layout-xs='column' layout='row'>
-    <md-card ng-repeat='up in usersProfiles'>
+    <md-card ng-repeat='up in usersProfiles| filter: {user:{person:{txtFullName: query.filter}}}'>
         <md-card-title>
             <md-card-title-text>
                 <span class="md-headline">{{up.user.person.txtFirstNameF}} {{up.user.person.txtLastNameF}}</span>

@@ -20,7 +20,8 @@
         "userRequired": "Username is Required",
         "passRequired": "Password is Required",
         "passIncorrecto": "Incorrect Password",
-        "userIncorrecto": "User not exist"
+        "userIncorrecto": "User not exist",
+        "selectProfile": "Select Profile"
     },
     "menu": {
     },
